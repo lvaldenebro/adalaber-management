@@ -5,16 +5,34 @@ import adalabers from "../data/adalabers.json";
 
 function App() {
   const [data, setData] = useState(adalabers.results); //be careful with the given structure, this is an object with an array with an object
+  const [newAdalaber, setNewAdalaber] = useState({
+    name: '',
+    counselor: '',
+    speciality: '',
+    });
 
-  const printData = data.map((eachAdalaber, index) => {
+  const printData = data.map((eachAdalaber, id) => {
     return (
-      <tr key={index}>
+      <tr key={id}>
         <td>{eachAdalaber.name}</td>
         <td>{eachAdalaber.counselor}</td>
         <td>{eachAdalaber.speciality}</td>
       </tr>
     );
   });
+
+  const handleNewAdalaber = (e) => {
+    setNewAdalaber({...newAdalaber, [e.target.id]: e.target.value}); //define an id into the input so it is unique into the form and the target is clear!
+  }
+  const handleAddNewAdalaber = (e) => {
+    e.preventDefault();
+    setData([...data, newAdalaber]); //////OJOOOOO
+    setNewAdalaber({
+      name: '',
+      counselor: '',
+      speciality: '',
+      });
+  }
 
   return (
     <div>
@@ -51,27 +69,37 @@ function App() {
 
       <form>
         <h2>Añadir una Adalaber</h2>
-        <label className="addNameLabel" htmlFor="addName">Nombre:</label>
+        <label className="addNameLabel" htmlFor="name">Nombre:</label>
         <input
-              className="addName"
+              className="name"
               type="text"
-              name="addName"
+              name="name"
+              id="name"
+              onChange={handleNewAdalaber}
+              value={newAdalaber.name}
             />
-        <label className="addTeacherLabel" htmlFor="addTeacher">Tutora:</label>
+        <label className="addTeacherLabel" htmlFor="counselor">Tutora:</label>
         <input
-              className="addTeacher"
+              className="counselor"
               type="text"
-              name="addTeacher"
+              name="counselor"
+              id="counselor"
+              onChange={handleNewAdalaber}
+              value={newAdalaber.counselor}
             />
-        <label className="addSpecialityLabel" htmlFor="addSpeciality">Especialidad:</label>
+        <label className="addSpecialityLabel" htmlFor="speciality">Especialidad:</label>
         <input
-              className="addSpeciality"
+              className="speciality"
               type="text"
-              name="addSpeciality"
+              name="speciality"
+              id="speciality"
+              onChange={handleNewAdalaber}
+              value={newAdalaber.speciality}
             />
         <input
             type="submit"
             value="Añadir una nueva Adalaber"
+            onClick={handleAddNewAdalaber}
           />
       </form>
 
