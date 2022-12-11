@@ -10,8 +10,13 @@ function App() {
     counselor: '',
     speciality: '',
     });
+  const [filter, setFilter] = useState('');
+  const handleFilter =  (ev) => {
+    setFilter(ev.target.value)
+  }
 
-  const printData = data.map((eachAdalaber, id) => {
+  const printData = data
+  .map((eachAdalaber, id) => {
     return (
       <tr key={id}>
         <td>{eachAdalaber.name}</td>
@@ -26,28 +31,40 @@ function App() {
   }
   const handleAddNewAdalaber = (e) => {
     e.preventDefault();
-    setData([...data, newAdalaber]); //////OJOOOOO
-    setNewAdalaber({
-      name: '',
-      counselor: '',
-      speciality: '',
-      });
+    if (newAdalaber.name !== '' && newAdalaber.counselor !== '' && newAdalaber.speciality !== '') {
+      setData([...data, newAdalaber]);
+      setNewAdalaber({
+        id: crypto.randomUUID(),
+        name: '',
+        counselor: '',
+        speciality: '',
+        social_networks: [
+          {
+            name: 'GitHub',
+            url: ''
+          },
+          {
+            name: 'LinkedIn',
+            url: ''
+          }
+        ]
+        });
+    }
   }
 
   return (
     <div>
       <h1>Adalabers</h1>
+      <p>Filters non working</p>
       <form>
-        <label className="searchNameLabel" htmlFor="searchName">Nombre:</label>
+        <label htmlFor="searchName">Nombre:</label>
         <input
-              className="searchName"
               type="search"
               name="searchName"
               placeholder="Ej: MariCarmen"
             />
-        <label className="searchTeacherLabel" htmlFor="searchTeacher">Escoge una tutora:</label>
+        <label htmlFor="searchTeacher">Escoge una tutora:</label>
         <select
-              className="searchTeacher"
               type="search"
               name="searchTeacher"
               placeholder="Ej: MariCarmen">
@@ -57,7 +74,7 @@ function App() {
         </select>
       </form>
 
-      <table className="table">
+      <table>
         <thead><tr>
           <th>Nombre</th>
           <th>Tutora</th>
@@ -69,32 +86,32 @@ function App() {
 
       <form>
         <h2>Añadir una Adalaber</h2>
-        <label className="addNameLabel" htmlFor="name">Nombre:</label>
+        <label htmlFor="name">Nombre:</label>
         <input
-              className="name"
               type="text"
               name="name"
               id="name"
               onChange={handleNewAdalaber}
               value={newAdalaber.name}
+              placeholder="MariCarmen"
             />
-        <label className="addTeacherLabel" htmlFor="counselor">Tutora:</label>
+        <label htmlFor="counselor">Tutora:</label>
         <input
-              className="counselor"
               type="text"
               name="counselor"
               id="counselor"
               onChange={handleNewAdalaber}
               value={newAdalaber.counselor}
+              placeholder="Miguel"
             />
-        <label className="addSpecialityLabel" htmlFor="speciality">Especialidad:</label>
+        <label htmlFor="speciality">Especialidad:</label>
         <input
-              className="speciality"
               type="text"
               name="speciality"
               id="speciality"
               onChange={handleNewAdalaber}
               value={newAdalaber.speciality}
+              placeholder="Python"
             />
         <input
             type="submit"
